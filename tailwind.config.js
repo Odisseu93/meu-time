@@ -9,10 +9,10 @@ export default {
 	],
 	theme: {
 		colors: {
-		 	bd_input_active: '#345901',
+			bd_input_active: '#345901',
 			bd_input_default: '#A0AC91',
 			bd_input_hover: '#42FCB5',
-			violet:  {
+			violet: {
 				100: '#9747FF',
 				200: '#8928D8',
 			},
@@ -28,6 +28,16 @@ export default {
 			sky: colors.sky,
 		},
 		extend: {
+			keyframes: {
+				violet: {
+					'0%' : { stroke: 'none' },
+					'50%': { stroke: '#9747FF'},
+					'100%': { stroke: '#8928D8'},
+				},
+			},
+			animation: {
+				violet: 'violet 5s ease-in-out infinite',
+			}
 		},
 	},
 	plugins: [],
