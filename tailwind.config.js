@@ -9,12 +9,14 @@ export default {
 	],
 	theme: {
 		colors: {
-			bd_input_active: '#345901',
-			bd_input_default: '#A0AC91',
-			bd_input_hover: '#42FCB5',
+			bd_inp_text_login_default: '#A0AC91',
+			bd_inp_text_login_active: '#345901',
+			bd_inp_text_login_hover: '#42FCB5',
 			violet: {
 				100: '#9747FF',
 				200: '#8928D8',
+				300: '#7211C1',
+				400: '#5800A7',
 			},
 			transparent: 'transparent',
 			current: 'currentColor',
