@@ -1,12 +1,41 @@
 import BallIcon from '@/components/BallIcon';
 import SoccerImage from '@/components/SoccerImage';
+import { useAuth } from '@/context/auth/hook';
+import FootballApi from '@/services/api';
+import { setDataSStorage } from '@/util/storage';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login: React.FC = () => {
+	const { setIsLoggedIn } = useAuth();
+	const navigate = useNavigate();
+
 	
+	
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if(document) {
+			const inp = e.currentTarget.querySelector('[name=apiKey]') as HTMLInputElement;
+
+			const footballApi = new FootballApi(inp.value);
+			footballApi.getStatus().then(res => {
+				if(res instanceof Error){
+					setIsLoggedIn(false);
+					alert('Chave inválida!');
+					return
+				}
+			 setDataSStorage('ak',inp.value);
+			 setIsLoggedIn(true);
+			 navigate('/dashboard');
+			});
+
+			return;
+		}
+	};
+
 	return (
 		<main className="grid">
-			<form className="grid md:grid-cols-2 gap-4 md:gap-2 items-center w-2/3 border-2  mx-auto md:ms-[25vw] mt-8">
+			<form onSubmit={(e)=> handleSubmit(e)} className="grid md:grid-cols-2 gap-4 md:gap-2 items-center w-2/3 border-2  mx-auto md:ms-[25vw] mt-8">
 				<div className="wrapper-input md:w-min[422px]">
 					<label className='block text-center mb-1' htmlFor='apiKey'>Insira a chave da API</label>
 					<BallIcon cls='wrapper-input__ball absolute m-1' />
