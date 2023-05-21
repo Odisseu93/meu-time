@@ -5,7 +5,7 @@ const Dashboard: React.FC = () => {
 	const { isLoggedIn } = useAuth();
 
 	return (
-		isLoggedIn || getDataSStorage('ak') ? (
+		isLoggedIn ? (
 			<main className="w-full h-[90vh] mt-6 border-y border-dashed bg-bg_main_dashboard">
 				<h1>Seja bem vindo!</h1>;
 			</main>
