@@ -1,6 +1,6 @@
 const setDataSStorage = (key:string, value: string) => {
 	if(window) {
-		window.sessionStorage[key] = value;
+		window.sessionStorage[key] = JSON.stringify(value);
 	}
 	return;
 };
@@ -8,7 +8,7 @@ const setDataSStorage = (key:string, value: string) => {
 const getDataSStorage = (key:string,) => {
 	if(window) {
 		if(!window.sessionStorage[key]) return null;
-		return window.sessionStorage[key];
+		return JSON.parse(window.sessionStorage[key]);
 	}
 	return null;
 };
