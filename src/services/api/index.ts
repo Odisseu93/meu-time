@@ -1,8 +1,10 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { Country, FootballApiType } from './types';
+import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
 
-class FootballApi {
+class FootballApi implements FootballApiType {
 	private apiKey: string;
 	private apiClient: AxiosInstance;
 
@@ -17,7 +19,7 @@ class FootballApi {
 		});
 	}
 
-	public async getStatus(): Promise<any> {
+	public async getStatus():  Promise<AxiosResponse<any> | Error> {
 		try {
 			const { data } = await this.apiClient.get('status');
 
@@ -27,7 +29,37 @@ class FootballApi {
 				if(errors.hasOwnProperty('token')) return new Error(errors.token);
 				return data;
 			}
-			return new Error('Ivalid key!');
+			return new Error('Invalid key!');
+		} catch (error) {
+			return new Error(String(error));
+		}
+	}
+
+	public async getCountries (): Promise<Country[] | Error> {
+		let countries: Country[];
+
+		try {
+			// evitar fazer requisições desnecessárias
+			if(getDataSStorage('countries')) {
+				countries = getDataSStorage('countries');
+				console.log(
+					'%cloading countries locally via browser!',
+					'color:blue; background: rgba(211, 211, 211, 0.32); '
+				) ;
+				return countries;
+			}
+			const { data } = await this.apiClient.get('countries');
+
+			if(data) {
+				const { errors } = await data;
+				// eslint-disable-next-line no-prototype-builtins
+				if(errors.hasOwnProperty('token')) return new Error(errors.token);
+				countries = data['response'];
+				if(countries.length === 0)  return new Error('countries not found');
+				setDataSStorage('countries', countries);
+				return countries;
+			}
+			return new Error('Invalid key!');
 		} catch (error) {
 			return new Error(String(error));
 		}
