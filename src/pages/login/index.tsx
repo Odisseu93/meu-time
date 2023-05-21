@@ -3,15 +3,21 @@ import SoccerImage from '@/components/SoccerImage';
 import { useAuth } from '@/context/auth/hook';
 import FootballApi from '@/services/api';
 import { setDataSStorage } from '@/util/storage';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
 const Login: React.FC = () => {
-	const { setIsLoggedIn } = useAuth();
+	const { setIsLoggedIn, isLoggedIn } = useAuth();
 	const navigate = useNavigate();
 
-	
-	
+	useEffect(() => {
+		isLoggedIn &&
+			setTimeout(() => {
+				navigate('/dashboard');
+			}, 500);
+	}, [isLoggedIn]);
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if(document) {
