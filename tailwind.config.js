@@ -40,6 +40,10 @@ export default {
 			},
 			animation: {
 				violet: 'violet 5s ease-in-out infinite',
+			},
+			backgroundImage: {
+				'dashboard': 'url(\'/assets/img/bg-dashboard.png\')',
+				'linear-gradient-white': 'linear-gradient(165.03deg, #FFFFFF 10.55%, rgba(255, 255, 255, 0) 46.29%)',
 			}
 		},
 	},
