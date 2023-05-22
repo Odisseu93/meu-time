@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Country, FootballApiType } from './types';
+import { Country, FootballApiType, League } from './types';
 import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
@@ -35,7 +35,7 @@ class FootballApi implements FootballApiType {
 		}
 	}
 
-	public async getCountries (): Promise<Country[] | Error> {
+	public async getCountries(): Promise<Country[] | Error> {
 		let countries: Country[];
 
 		try {
@@ -59,7 +59,28 @@ class FootballApi implements FootballApiType {
 				setDataSStorage('countries', countries);
 				return countries;
 			}
-			return new Error('Invalid key!');
+			return new Error('Invalid Country!');
+		} catch (error) {
+			return new Error(String(error));
+		}
+	}
+
+	public async getLeagues( country_code:string, season_year: number): Promise<League[] | Error> {
+		let leagues: League[];
+
+		try {
+			const { data } = await this.apiClient.get(`leagues/?code=${country_code}&season=${season_year}`);
+
+			if(data) {
+				const { errors } = await data;
+				// eslint-disable-next-line no-prototype-builtins
+				if(errors.hasOwnProperty('token')) return new Error(errors.token);
+				leagues = data['response'];
+				if(leagues.length === 0)  return new Error('leagues not found');
+				setDataSStorage('leagues', leagues);
+				return leagues;
+			}
+			return new Error('Invalid League!');
 		} catch (error) {
 			return new Error(String(error));
 		}
