@@ -6,6 +6,16 @@ export interface Country {
   flag: string,
 }
 
+type Errors = [] | object;
+
+export interface Status {
+  errors: Errors,
+  requests: {
+    current: number,
+    limit_day: number
+  }
+}
+
 type Fixtures = {
   events: boolean,
   lineups: boolean,
@@ -43,7 +53,7 @@ export interface League {
 }
 
 export interface FootballApiType {
-  getStatus(): Promise<AxiosResponse<any> | Error>,
+  getStatus(): Promise<Status | Error>,
   getCountries(): Promise<Country[] | Error>,
   getLeagues(country_code:string, season_year: number): Promise<League[] | Error>
 }

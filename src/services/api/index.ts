@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Country, FootballApiType, League } from './types';
+import { Country, FootballApiType, League, Status } from './types';
 import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
@@ -19,7 +19,7 @@ class FootballApi implements FootballApiType {
 		});
 	}
 
-	public async getStatus():  Promise<AxiosResponse<any> | Error> {
+	public async getStatus():  Promise<Status | Error> {
 		try {
 			const { data } = await this.apiClient.get('status');
 
@@ -27,7 +27,7 @@ class FootballApi implements FootballApiType {
 				const { errors } = await data;
 				// eslint-disable-next-line no-prototype-builtins
 				if(errors.hasOwnProperty('token')) return new Error(errors.token);
-				return data;
+				return data.response;
 			}
 			return new Error('Invalid key!');
 		} catch (error) {
