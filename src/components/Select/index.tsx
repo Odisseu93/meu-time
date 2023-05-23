@@ -15,7 +15,7 @@ interface FormSelectProps {
 		clsSelect?: string,
 	},
 	label: string,
-	handleChange: (e: SingleValue<{
+	handleChange?: (e: SingleValue<{
 		value: string,
 		label: string,
 	}>) => void,
@@ -28,11 +28,11 @@ const FormSelect: React.FC<FormSelectProps> = ({ options, name, classNames, labe
 			<label className={classNames['clsLabel']?? 'text-violet-400 text-center ps-1 text-2xl'}>{label}</label>
 			<Select className={classNames['clsSelect'] ?? 'text-violet-400'}
 				name={name}
-				onChange={(e: SingleValue<{
+				onChange={handleChange ? (e: SingleValue<{
 					value: string,
 					label: string,
 				}>
-				) => handleChange(e)} options={options} />
+				) => handleChange(e): undefined} options={options} />
 		</div>
 	)
 }
