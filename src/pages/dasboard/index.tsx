@@ -49,8 +49,24 @@ const Dashboard: React.FC = () => {
 			</main>
 		)
 			: (
-				<main className="w-full h-[90vh] mt-6 border-y border-dashed bg-bg_main_dashboard">
-					<h1>Você não tem acesso, efutue o login!</h1>
+
+				<main className="  w-full h-[100vh] grayscale bg-deflated-ball b-auto bg-no-repeat md:bg-sad-soccer-player md:bg-cover  ">
+					<div className="wrapper grid gap-8 my-auto">
+						<h1 className='text-center md:text-white font-bold h-auto text-3xl'>Você não tem acesso,<br /> efutue o login!</h1>
+						<Link className='mx-auto
+					
+						 border-4 bg-white border-black border-double
+						 rounded-md p-2 
+						 active:bg-bd_inp_text_login_active active:text-white
+						 before:bluer
+						 md:grayscale-0
+						 md:text-black
+						md:hover:bg-black
+						md:hover:text-white
+						md:hover:border-white
+
+						 ' to='/login' >Tela de Login</Link>
+					</div>
 				</main>
 			)
 	);

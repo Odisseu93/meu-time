@@ -43,6 +43,8 @@ export default {
 			},
 			backgroundImage: {
 				'dashboard': 'url(\'/assets/img/bg-dashboard.png\')',
+				'deflated-ball': 'url(\'/assets/img/deflated-ball.bmp\')',
+				'sad-soccer-player': 'url(\'/assets/img/sad-soccer-player.bmp\')',
 				'linear-gradient-white': 'linear-gradient(165.03deg, #FFFFFF 10.55%, rgba(255, 255, 255, 0) 46.29%)',
 			}
 		},
