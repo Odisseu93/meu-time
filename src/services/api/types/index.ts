@@ -51,21 +51,41 @@ export interface League {
 }
 
 export interface Team {
-  errors: Errors,
-  team: {
+    team :{
     id: number,
     name: string,
     code: string,
     country: string,
     founded: number,
     national: boolean,
-    logo: string
-  },
+    logo: string}
+}
+
+
+export interface Player {
+  player: {
+    id: number,
+    name: string,
+    firstname: string,
+    lastname: string,
+    age: number,
+    birth: {
+      date: Date,
+      place: string,
+      country: string
+    },
+    nationality: string,
+    height: string,
+    weight: number,
+    injured: boolean,
+    photo: string
+  }
 }
 
 export interface FootballApiType {
   getStatus(): Promise<Status | Error>,
   getCountries(): Promise<Country[] | Error>,
-  getLeagues(country_name:string, season_year: number): Promise<League[] | Error>
-  getTeams(country_name:string, league_id:number, season_year: number): Promise<Team[] | Error>
+  getLeagues(country_name:string, season_year: number): Promise<League[] | Error>,
+  getTeams(country_name:string, league_id:number, season_year: number): Promise<Team[] | Error>,
+  getPlayers(team_id:number, league_id:number, season_year: number): Promise<Player[] | Error>
 }

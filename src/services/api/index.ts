@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Country, FootballApiType, League, Status, Team } from './types';
+import { Country, FootballApiType, League, Player, Status, Team } from './types';
 import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
@@ -104,6 +104,28 @@ class FootballApi implements FootballApiType {
 			return new Error(String(error));
 		}
 	}
+
+
+	public async getPlayers(team_id:number, league_id:number, season_year: number): Promise<Player[] | Error> {
+		let players = {} as Player[];
+
+		try {
+			const { data }  = await this.apiClient.get(`players/?team=${team_id}&season=${season_year}&league=${league_id}`);
+
+			if(data) {
+				const { errors } = await data;
+				// eslint-disable-next-line no-prototype-builtins
+				if(errors.hasOwnProperty('token')) return new Error(errors.token);
+				players = data['response'];
+				if(players.length === 0)  return new Error('players not found');
+				return players ;
+			}
+			return new Error('Invalid players!');
+		} catch (error) {
+			return new Error(String(error));
+		}
+	}
+	
 
 
 }
