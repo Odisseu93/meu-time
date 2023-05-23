@@ -50,8 +50,22 @@ export interface League {
   seasons: Seasson[]
 }
 
+export interface Team {
+  errors: Errors,
+  team: {
+    id: number,
+    name: string,
+    code: string,
+    country: string,
+    founded: number,
+    national: boolean,
+    logo: string
+  },
+}
+
 export interface FootballApiType {
   getStatus(): Promise<Status | Error>,
   getCountries(): Promise<Country[] | Error>,
   getLeagues(country_name:string, season_year: number): Promise<League[] | Error>
+  getTeams(country_name:string, league_id:number, season_year: number): Promise<Team[] | Error>
 }

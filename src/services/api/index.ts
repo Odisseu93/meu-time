@@ -85,6 +85,26 @@ class FootballApi implements FootballApiType {
 		}
 	}
 
+	public async getTeams(country_name:string, league_id:number, season_year: number): Promise<Team[] | Error> {
+		let teams: Team[];
+
+		try {
+			const { data } = await this.apiClient.get(`teams/?country=${country_name}&season=${season_year}&league=${league_id}`);
+
+			if(data) {
+				const { errors } = await data;
+				// eslint-disable-next-line no-prototype-builtins
+				if(errors.hasOwnProperty('token')) return new Error(errors.token);
+				teams = data['response'];
+				if(teams.length === 0)  return new Error('teams not found');
+				return teams;
+			}
+			return new Error('Invalid teams!');
+		} catch (error) {
+			return new Error(String(error));
+		}
+	}
+
 
 }
 
