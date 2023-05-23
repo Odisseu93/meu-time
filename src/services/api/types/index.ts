@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 export interface Country {
   name: string,
   code: string,
@@ -55,5 +53,5 @@ export interface League {
 export interface FootballApiType {
   getStatus(): Promise<Status | Error>,
   getCountries(): Promise<Country[] | Error>,
-  getLeagues(country_code:string, season_year: number): Promise<League[] | Error>
+  getLeagues(country_name:string, season_year: number): Promise<League[] | Error>
 }

@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Country, FootballApiType, League, Status } from './types';
+import axios, { AxiosInstance } from 'axios';
+import { Country, FootballApiType, League, Status, Team } from './types';
 import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
@@ -65,11 +65,11 @@ class FootballApi implements FootballApiType {
 		}
 	}
 
-	public async getLeagues( country_code:string, season_year: number): Promise<League[] | Error> {
+	public async getLeagues( country_name:string, season_year: number): Promise<League[] | Error> {
 		let leagues: League[];
 
 		try {
-			const { data } = await this.apiClient.get(`leagues/?code=${country_code}&season=${season_year}`);
+			const { data } = await this.apiClient.get(`leagues/?country=${country_name}&season=${season_year}`);
 
 			if(data) {
 				const { errors } = await data;
@@ -77,7 +77,6 @@ class FootballApi implements FootballApiType {
 				if(errors.hasOwnProperty('token')) return new Error(errors.token);
 				leagues = data['response'];
 				if(leagues.length === 0)  return new Error('leagues not found');
-				setDataSStorage('leagues', leagues);
 				return leagues;
 			}
 			return new Error('Invalid League!');
