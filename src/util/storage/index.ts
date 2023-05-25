@@ -13,4 +13,11 @@ function getDataSStorage(key:string) {
 	return null;
 }
 
-export { setDataSStorage, getDataSStorage};
+function clearSStorage() {
+	if(!window) {
+		return null;
+	}
+	window.sessionStorage.clear();
+}
+
+export { setDataSStorage, getDataSStorage, clearSStorage};
