@@ -82,10 +82,51 @@ export interface Player {
   }
 }
 
+export type MinuteData = {
+  [minute: string]: {
+    total: number | null;
+    percentage: string | null;
+  };
+};
+
+
+
+export interface TeamStatistics extends Team, LeagueData {
+  lineups: [
+    {
+      formation: string,
+      played: number
+    }
+  ],
+  fixtures: {
+    played: {
+      total: number
+    },
+    wins: {
+      total: number
+    },
+    loses: {
+      total: number
+    },
+    draws: {
+      total: number
+    },
+  },
+  goals: {
+    for: {
+      home: number,
+      away: number,
+      total: number,
+      minute: MinuteData
+    }
+  },
+}
+
 export interface FootballApiType {
   getStatus(): Promise<Status | Error>,
   getCountries(): Promise<Country[] | Error>,
   getLeagues(country_name:string, season_year: number): Promise<League[] | Error>,
   getTeams(country_name:string, league_id:number, season_year: number): Promise<Team[] | Error>,
-  getPlayers(team_id:number, league_id:number, season_year: number): Promise<Player[] | Error>
+  getPlayers(team_id:number, league_id:number, season_year: number): Promise<Player[] | Error>,
+  getTeamsStatistics(league_id:number, season_year: number, team_id: number, ): Promise<TeamStatistics | Error>
 }

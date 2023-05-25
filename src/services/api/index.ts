@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Country, FootballApiType, League, Player, Status, Team } from './types';
+import { Country, FootballApiType, League, Player, Status, Team, TeamStatistics } from './types';
 import { getDataSStorage, setDataSStorage } from '@/util/storage';
 
 
@@ -59,7 +59,7 @@ class FootballApi implements FootballApiType {
 				setDataSStorage('countries', countries);
 				return countries;
 			}
-			return new Error('Invalid Country!');
+			return new Error('something is wrong!');
 		} catch (error) {
 			return new Error(String(error));
 		}
@@ -79,7 +79,7 @@ class FootballApi implements FootballApiType {
 				if(leagues.length === 0)  return new Error('leagues not found');
 				return leagues;
 			}
-			return new Error('Invalid League!');
+			return new Error('something is wrong!');
 		} catch (error) {
 			return new Error(String(error));
 		}
@@ -99,7 +99,7 @@ class FootballApi implements FootballApiType {
 				if(teams.length === 0)  return new Error('teams not found');
 				return teams;
 			}
-			return new Error('Invalid teams!');
+			return new Error('something is wrong!');
 		} catch (error) {
 			return new Error(String(error));
 		}
@@ -120,13 +120,35 @@ class FootballApi implements FootballApiType {
 				if(players.length === 0)  return new Error('players not found');
 				return players ;
 			}
-			return new Error('Invalid players!');
+			return new Error('something is wrong!');
+		} catch (error) {
+			return new Error(String(error));
+		}
+	}
+
+	public async getTeamsStatistics(league_id:number, season_year: number, team_id: number, ): Promise<TeamStatistics | Error> {
+		let team: TeamStatistics;
+		const query = `teams/statistics/?league=${league_id}&season=${season_year}&team=${team_id}`;
+
+		try {
+
+			const { data } = await this.apiClient.get(query);
+
+			if(data) {
+				const { errors } = await data;
+				// eslint-disable-next-line no-prototype-builtins
+				if(errors.hasOwnProperty('token')) return new Error(errors.token);
+				team = data['response'];
+				// eslint-disable-next-line no-prototype-builtins
+				if(!team.hasOwnProperty('team'))  return new Error('Team Statistics not found!');
+				return team;
+			}
+			return new Error('something is wrong!');
 		} catch (error) {
 			return new Error(String(error));
 		}
 	}
 	
-
 
 }
 
