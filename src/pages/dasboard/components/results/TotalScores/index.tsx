@@ -17,7 +17,7 @@ const TotalScores: React.FC<{ data: TeamStatistics }> = ({ data }) => {
       Totais
 			</h3>
 			<table 
-				className="mx-auto border-2 border-solid w-max border-violet-500">
+				className="mx-auto border-2 border-solid w-max border-white">
 				<thead >
 					<th 
 						className="p-1 text-white border-white border-solid bg-violet-500 border-e-2">
