@@ -16,25 +16,30 @@ const LineupsFC: React.FC<{ data: TeamStatistics }> = ({ data }) => {
         Formação mais utilizada na temporada
 			</h3>
 			<ul
-				className="flex flex-col flex-wrap gap-4 p-1 mx-auto mt-1 border-2 border-solid lineups_list w-fit border-violet-500 md:flex-row"
+				className="flex
+				 flex-row w-11/12 flex-wrap
+				 gap-4 p-1 mx-auto mt-1 border-2
+				 border-solid lineups_list  border-violet-500
+				justify-center md:p-3"
 			>
 				{lineups.map(({ formation, played }) => {
 					return (
 						<li
 							className="lineups__item
-                grid w-full p-1
+                grid gap-1 p-1
                 border-2 border-solid border-[#30350f62] rounded-sm
                 bg-[#30350fc2]
                 text-white
-                md:w-fit"
+								w-1/3
+                md:w-1/4"
 						>
 							<p
-								className="text-center lineups__item__formation">
+								className="text-center lineups__item__formation text-white font-bold">
 								{formation}
 							</p>
 							<p
-								className="text-center text-blue-400 lineups__item__played">
-                utilizada {played} vezes
+								className="text-center lineups__item__played text-sm">
+                utilizada <span className='text-black underline font-bold '>{played}</span><br/>vezes
 							</p>
 						</li>
 					);
