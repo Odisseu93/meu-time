@@ -16,20 +16,19 @@ const PlayerCard: React.FC<PlayerCardProps> = (
 
 	return (
 		<article className="card-player
-     flex flex-col
-     gap-2
-     items-center w-[150px]
-     md:w-[200px]
-     h-min
+		bg-[#30350fc2] text-white 
+		border border-solid border-[#30350f51]
+     flex flex-col gap-2 
+		 items-center w-2/6	h-min
      overflow-hidden
-     bg-[#30350fc2] text-white border border-solid border-[#30350f51]
+     md:w-1/6
      p-3 rounded-md hover:saturate-200 hover:first-letter">
-			<h4 className="card-player__title player-name text-center font-bold break-words">{name}</h4>
-			<p className="card-player__age player-nationality text-left">{age} anos</p>
-			<div className="wrapper-img w-10/12 p-1 rounded-md border-spacing-8 border-gray-800">
-				<img className="card-player__img w-11/12 h-3/4 m-auto text-sm rounded-full " src={imgSrc} alt="player photo" />
+			<h4 className="block font-bold text-center truncate card-player__title player-name">{name}</h4>
+			<p className="text-left card-player__age player-nationality">{age} anos</p>
+			<div className="w-10/12 p-1 border-gray-800 rounded-md wrapper-img border-spacing-8">
+				<img className="w-11/12 m-auto text-sm rounded-full card-player__img h-3/4 " src={imgSrc} alt="player photo" />
 			</div>
-			<p className="card-player__nationality player-nationality text-left">{nationality}</p>
+			<p className="text-left card-player__nationality player-nationality">{nationality}</p>
 		</article>
 	)
 };
