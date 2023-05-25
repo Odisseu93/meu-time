@@ -13,11 +13,16 @@ export default {
 			bd_inp_text_login_active: '#345901',
 			bd_inp_text_login_hover: '#42FCB5',
 			bg_main_dashboard: '#379237',
+			midnight_blue: {
+				primary: '#282A3A',
+				secondary: '#282a3a9d',
+			},
 			violet: {
 				100: '#9747FF',
 				200: '#8928D8',
 				300: '#7211C1',
 				400: '#5800A7',
+				500: '#1e0038',
 			},
 			transparent: 'transparent',
 			current: 'currentColor',
