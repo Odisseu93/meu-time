@@ -25,6 +25,7 @@ bem como um gráfico que exibe a distribuição dos gols ao longo do tempo de jo
 5. Gráfico de Distribuição de Gols: Os usuários terão acesso a um gráfico interativo que mostra a distribuição dos gols marcados pelo time ao longo do tempo de jogo,
  permitindo uma análise visual do desempenho em diferentes períodos.
 
+
 ## Desafio
 O meu maior desafio com este projeto foi fazer o usuário seguir uma sequêcia lógica, onde uma requisção dependia da outra.
 consegui resolver da seguinte forma:
@@ -130,6 +131,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 - [Cite(*bundle*)](https://vitejs.dev/)
 - [Tailwindcss](https://tailwindcss.com/)
 
+## Figma
+[Esboço](https://www.figma.com/file/mzxhUWY48YV4xHpa6TRXYa/Meu-Time?type=design&node-id=0-1&t=rbtAQlXrsrwT58mU-0)
 
 ## Executando localmente
 
