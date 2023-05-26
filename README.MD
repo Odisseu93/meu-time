@@ -157,7 +157,7 @@ Install dependencies / instale as dependencias
 Start the server / inicie o servidor
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 ## Licença
