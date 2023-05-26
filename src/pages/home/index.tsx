@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import BallIcon from '@/components/BallIcon';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '@/context/auth/hook';
 
 
 const Home: React.FC = () => {
-	const [showNav, setShowNav] = useState(false);
+	const [showNav, setShowNav] = useState(true);
 
 
 	return (
@@ -84,13 +83,13 @@ const Home: React.FC = () => {
 			</header>
 			<main className="w-[100vw] h-[95vh] bg-gray-700 py-16 overflow-y-auto overflow-x-hidden">
 
-				<h2 className='text-2xl text-white tracking-widest text-center animate-pulse'>Encontre informações do seu Time!</h2>
-				<h3 className='mt-10'> <img className='w-[50vw] mx-auto rounded-md shadow-xl mx-auto 'src="assets/img/demonstration.gif" alt="demonstration" />
-					</h3>		
+				<h2 className='text-2xl text-white mt-5 md:tracking-widest text-center animate-pulse'>Encontre informações do seu Time!</h2>
+				<h3 className='mt-10'> <img className=' w-[90vw] md:w-[50vw]  rounded-md shadow-xl mx-auto 'src="assets/img/demonstration.gif" alt="demonstration" />
+				</h3>		
 				<h3 className='text-xl text-white text-center mt-20'>Obtendo a chave da API:</h3>
 				<ol className='mx-auto flex flex-col gap-5 w-fit mt-4'>
 					<li className='text-white '>
-						<div className="text-box mb-2 flex gap-2">
+						<div className="text-box mb-2 flex gap-2 w-[90vw] justify-center mx-auto md:w-auto">
 							<p className='w-fit'>1º Acesse o site</p>
 							<a className=" text-blue-400 md:hover:underline"
 								href="https://dashboard.api-football.com/register" target="_blank" rel="noopener noreferrer">dashboard.api-football.com</a>
@@ -100,7 +99,7 @@ const Home: React.FC = () => {
 							src="/assets/img/cadastro/1.png" alt="API register image 1" />
 					</li>
 					<li className='text-white '>
-						<div className="text-box mb-2 flex gap-2">
+						<div className="text-box mb-2 flex gap-2 w-[70vw] mx-auto md:w-auto">
 							<p className='w-fit'>2º Acesse a opção <b className='font-bold'>"Account"</b> no menu lateral</p>
 						</div>
 						<img
@@ -108,7 +107,7 @@ const Home: React.FC = () => {
 							src="/assets/img/cadastro/2.png" alt="" />
 					</li>
 					<li className='text-white '>
-						<div className="text-box mb-2 flex gap-2 w-[360px]">
+						<div className="text-box mb-2 flex gap-2 w-[70vw] mx-auto md:w-auto">
 							<p className='w-fit'>3º Copie e salve a sua chave <small className='text-sm'>{'('}Você terá um limite de 100 consultas diarias{')'}</small></p>
 						</div>
 						<img
@@ -120,7 +119,7 @@ const Home: React.FC = () => {
 			</main>
 			<footer
 				className="relative
-				bottom-0 w-auto h[8vh] p-2 
+				bottom-0 w-auto h[10vh] p-2 
 				before:absolute  before:bottom-0 before:bg-midnight_blue-secondary
 				before:-inset-1 before:z-[-10] blur:drop-shadow-[0_0_4px_30px_rgba(0, 0, 0, 0.1)]
 				shadow-inner

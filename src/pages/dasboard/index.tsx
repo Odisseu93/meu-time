@@ -27,7 +27,7 @@ type Data = {
 const Dashboard: React.FC = () => {
 	const { isLoggedIn, setIsLoggedIn } = useAuth();
 	const navigate = useNavigate();
-	const [showNav, setShowNav] = useState(false);
+	const [showNav, setShowNav] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const [countries, setCountries] = useState<Country[] | null>(null);
