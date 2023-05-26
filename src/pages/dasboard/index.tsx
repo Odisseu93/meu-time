@@ -7,9 +7,9 @@ import {
 	Team,
 	TeamStatistics
 } from '@/services/api/types';
-import { getDataSStorage } from '@/util/storage';
+import { clearSStorage, getDataSStorage } from '@/util/storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import ChartFC from './components/results/ChartFC';
 import LineupsFC from './components/results/LineupsFC';
@@ -27,8 +27,9 @@ type Data = {
 const Dashboard: React.FC = () => {
 	const { isLoggedIn, setIsLoggedIn } = useAuth();
 	const navigate = useNavigate();
+	const [showNav, setShowNav] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-	
 	const [countries, setCountries] = useState<Country[] | null>(null);
 	const [leagues, setLeagues] = useState<League[] | null>(null);
 	const [teams, setTeams] = useState<Team[] | null>(null);
@@ -48,6 +49,7 @@ const Dashboard: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const target = e.currentTarget;
+		setIsLoading(true);
 
 		if (stepOne) {
 			const season = target['season_year'].value;
@@ -63,8 +65,10 @@ const Dashboard: React.FC = () => {
 					);
 					setLeagues(null);
 					alert(res);
+					setIsLoading(false);
 					return;
 				}
+				setIsLoading(false);
 				setLeagues(res);
 				setStepOne(false);
 				setStepTwo(true);
@@ -84,9 +88,11 @@ const Dashboard: React.FC = () => {
 							`Aconteceu algum problema ao listar os times😢:\n\n${res.message}`
 						);
 						setTeams(null);
+						setIsLoading(false);
 						return;
 					}
 					setTeams(res);
+					setIsLoading(false);
 					setStepTwo(false);
 					setStepThree(true);
 
@@ -109,27 +115,16 @@ const Dashboard: React.FC = () => {
 							`Aconteceu algum problema ao listar os jogadores😢:\n\n${res.message}`
 						);
 						setPlayers(null);
+						setIsLoading(false);
 						return;
 					}
 					setPlayers(res);
+					setIsLoading(false);
+					// get estatisticas
+					getStatistics()
 				});
 			}, 500);
-			// get estatisticas
-			setTimeout(() => {
-				const { leagueId, seasonYear, teamId } = data;
 
-				leagueId && seasonYear && teamId
-					? api.getTeamsStatistics(leagueId, seasonYear, teamId).then((res) => {
-						if (res instanceof Error) {
-							alert(
-								`Estatísticas do time não encontradas😢:\n\n${res.message}`
-							);
-							return;
-						}
-						setStatistics(res);
-					})
-					: null;
-			}, 2000);
 		}
 		
 		handleStatus();
@@ -146,9 +141,27 @@ const Dashboard: React.FC = () => {
 		setLeagues(null);
 	};
 
+	const getStatistics = ()=> {
+
+		setIsLoading(true);	
+
+		api.getTeamsStatistics(data.leagueId, data.seasonYear, data.teamId).then((res) => {
+			if (res instanceof Error) {
+				alert(
+					`Estatísticas do time não encontradas😢:\n\n${res.message}`
+				);
+				setIsLoading(false);
+				return;
+			}
+			setStatistics(res);
+			setIsLoading(false);
+		})
+	}
+
 	const handleLoggOut = useCallback(() => {
 		setIsLoggedIn(false);
-		navigate('/login');
+		navigate('/home');
+		clearSStorage()
 	}, [navigate, setIsLoggedIn]);
 
 	const handleStatus = () => {
@@ -182,35 +195,81 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<>
-			<header
+		
+			{isLoggedIn? <header
 				className="fixed
-				w-full
-				flex 
-				top-0
-				px-8
-				z-10
-			  bg-midnight_blue-primary h-[5vh]
+				w-full flex top-0 px-8 z-10
+			  bg-midnight_blue-primary min-h-[8vh]
 				md:justify-between md:items-center
 				"
 			>
-				<h1 
-					className="self-center block text-center text-white ">
-          Consultas disponíveis:{' '}
-					<span 
-						className={currentRequest === 100 ? 'text-[#FF6347]' : ''}>
+				<div className="mobile-nav md:hidden">
+					{!showNav ? (
+						<>
+							<button className='btn-hamburguer me-3' onClick={() => setShowNav(true)}>
+								<img src="assets/img/btn-close-icon.svg" alt="close button icon" />
+							</button>
+							<nav className='absolute top-[10vh] left-0
+								flex flex-col gap-10 items-center
+								h-[30vh] w-[30vw] rounded-br-lg
+							bg-[#ffffffbc] shadow pt-10 font-bold'
+							>
+								<NavLink to='/'>Home</NavLink>
+								<button
+									className=" md:text-white
+									md:hover:text-bd_inp_text_login_hover
+									md:active:text-bd_inp_text_login_active font-bold"
+									onClick={handleLoggOut}
+								>
+									Sair
+								</button>
+							</nav>
+						</>
+					) : <>
+						<button className='btn-hamburguer me-3' onClick={() => setShowNav(false)}>
+							<img src="assets/img/btn-hamburguer-icon.svg" alt="hamburguer button icon" />
+						</button>
+					</>}
+					
+				</div>
+				<div className="nav-desktop hidden md:block">
+					<h1
+						className="absolute self-center block top-[2.5vh] left-[38vw] text-center w-fit bg-sky-400 text-violet-500 p-1">
+						Consultas disponíveis:{' '}
+						<span
+							className={currentRequest >= 100 ? 'text-[#FF6347] font-bold' : ''}>
+							{currentRequest}
+						</span>
+						/100
+					</h1>
+					<nav className='flex justify-between  w-[95vw] px-1'>
+						<NavLink to='/'
+							className=" md:text-white
+							block
+
+								md:hover:text-bd_inp_text_login_hover
+								md:active:text-bd_inp_text_login_active font-bold">
+							Home</NavLink>
+						<button
+							className=" md:text-white
+									md:hover:text-bd_inp_text_login_hover
+									md:active:text-bd_inp_text_login_active font-bold"
+							onClick={handleLoggOut}
+						>
+							Sair
+						</button>
+					</nav>
+				</div>
+				<h1
+					className="self-center block text-center bg-sky-400 text-violet-500 p-1 ml-auto md:hidden">
+					Consultas disponíveis:{' '}
+					<span
+						className={currentRequest >= 100 ? 'text-[#FF6347] font-bold' : ''}>
 						{currentRequest}
 					</span>
-          /100
+					/100
 				</h1>
-				<button
-					className=" md:text-white
-					md:hover:text-bd_inp_text_login_hover
-					md:active:text-bd_inp_text_login_active"
-					onClick={handleLoggOut}
-				>
-          Sair
-				</button>
-			</header>
+			</header> : null}	
 
 			{isLoggedIn ? (
 				<main
@@ -275,7 +334,7 @@ const Dashboard: React.FC = () => {
 								className="mb-3 form-group">
 								<FormSelect
 									name="league"
-									label="League"
+									label="Liga"
 									isRequired={true}
 									options={leagues.map(({ league }) => {
 										return {
@@ -310,8 +369,9 @@ const Dashboard: React.FC = () => {
 
 						<div
 							className="items-center 
-								grid-rows-2 gap-2 my-3
-								wrapper-btns md:grid-cols-2"
+								grid gap-10 my-3
+								w-full 
+								wrapper-btns md:grid-cols-2 md:gap-2 md:w-fit"
 						>
 							<button
 								type="submit"
@@ -319,7 +379,15 @@ const Dashboard: React.FC = () => {
 								 mx-auto text-white rounded-md
 								 w-fit h-fit bg-violet-100 md:hover:bg-violet-200"
 							>
-                Pesquisar
+								{
+									isLoading ?
+										(
+											<span className='submit-loading animate-pulse grid w-fit' aria-live="polite" aria-busy="true">
+												Aguarde...</span>
+										)
+										:
+										<span className='submit-default' aria-live="polite" aria-busy="false">Pesquisar</span>
+								}	
 							</button>
 							<button
 								type="button"
@@ -328,7 +396,7 @@ const Dashboard: React.FC = () => {
 								 mx-auto my-2 text-white rounded-md
 								 w-fit h-fit bg-violet-100 md:hover:bg-violet-200"
 							>
-                resetar
+								resetar
 							</button>
 						</div>
 					</form>
