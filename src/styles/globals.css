@@ -35,6 +35,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
